@@ -24,3 +24,141 @@ int main() {
 	int sum = get_sum(s);
 	cout << sum << endl;
 }
+//Ввести символьную строку и проверить, является ли она палиндромом (палиндром читается одинаково в обоих направлениях, например, «казак»).
+#include <iostream>
+using namespace std;
+int main() {
+    setlocale(LC_ALL, "Rus");
+
+    char* str = new char[256];
+    cin >> str;
+
+    int b = strlen(str);
+    bool a = true;
+
+    for (int i = 0; i < b / 2; i++) {
+        if (str[i] != str[b - 1 - i])
+            a = false;
+    }
+
+    cout << (a ? "палиндром" : "НЕ палиндром") << endl;
+
+    delete[] str;
+    return 0;
+}
+//Ввести с клавиатуры в одну строку фамилию, имя и отчество, разделив их пробелом. Вывести фамилию и инициалы. Например, при вводе строки «Иванов Петр Семёнович» должно получиться «П.С. Иванов».
+#include <iostream>
+using namespace std;
+int main() {
+	int buf_size = 256;
+
+	char* str = new char[buf_size];
+	cin.getline(str, buf_size - 1);
+
+	char* s_copy = new char[buf_size];
+	strcpy_s(s_copy, buf_size - 1, str);
+
+	char* context;
+	for (int i = 0; i < 3; i++) {
+		char* part = strtok_s(s_copy, " ", &context);
+		if (i == 0) cout << part << " ";
+		else cout << part[0] << ". ";
+	s_copy = nullptr;
+	}
+	cout << endl;
+	delete[] str;
+	return 0;
+}
+//Напишите функцию, которая изменяет в имени файла расширение на заданное (например, на «.bak»). Функция принимает два параметра: имя файла и нужно расширение. Учтите, что в исходном имени расширение может быть пустым.
+#include <iostream>
+#include <string.h>
+#include <Windows.h>
+using namespace std;
+int main()
+{	setlocale(LC_ALL, "Rus");
+	SetConsoleOutputCP(1251);
+	SetConsoleCP(1251);
+
+	int buf_size = 256;
+
+	char* str = new char[buf_size];
+	char* ext = new char[15];
+
+	cout << "Введите название файла: ";
+	cin.getline(str, buf_size - 1);
+	cout << "Введите новое расширение (с точкой, например, \".bak\"): ";
+	cin.getline(ext, 15 - 1);
+
+	int a = strlen(str);
+	int ext_a = strlen(ext);
+	int last_dot_index = -1;
+
+	for (int i = 0; i < a; i++)
+		if (str[i] == '.')
+			last_dot_index = i;
+
+	int start = last_dot_index != -1 ? last_dot_index : a;
+
+	// ext_len + 1 для того чтобы записать ext и '\0'
+	for (int i = 0; i < ext_a + 1; i++)
+		str[start + i] = ext[i];
+
+	cout << "Файл: " << str << endl;
+
+	delete[] ext;
+	delete[] str;
+	return 0;
+}
+//Напишите функцию, которая определяет, сколько раз входит в символьную строку заданное слово.
+#include <iostream>
+#include <string.h>
+#include <Windows.h>
+using namespace std;
+int main() {
+	setlocale(LC_ALL, "Rus");
+	SetConsoleOutputCP(1251);
+	SetConsoleCP(1251);
+	int len = 256;
+	char* str = new char[len];
+	char* pattern = new char[len];
+
+	cout << "Строка: ";
+	cin.getline(str, len - 1);
+	cout << "Искомый паттерн: ";
+	cin.getline(pattern, len - 1);
+
+	int str_len = strlen(str);
+	int pat_len = strlen(pattern);
+
+	int entries_count = 0;
+
+	bool all_entries = false
+
+	for (int i = 0; i < str_len; i++)
+		if (str[i] == pattern[0])
+		{
+			if (str_len - i < pat_len)
+				break;
+
+			bool is_pattern = true;
+			int j_saved = 1;
+
+			for (int j = 1; j < pat_len; j++)
+				if (str[i + j] != pattern[j])
+				{
+					j_saved = j;
+					is_pattern = false;
+					break;
+				}
+
+			entries_count += is_pattern;
+
+			if (!all_entries)
+				i += j_saved;
+		}
+
+	cout << "Кол-во вхождений: " << entries_count << endl;
+
+	delete[] str;
+	return 0;
+}
