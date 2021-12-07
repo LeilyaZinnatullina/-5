@@ -1,0 +1,27 @@
+//Ввести строку, в которой записана сумма натуральных чисел, например, «1 + 25 + 3».Вычислите это выражение.
+#include <iostream>
+using namespace std;
+
+int get_sum(const char* s) {
+	char* s_copy = new char[strlen(s) + 1];
+	strcpy_s(s_copy, strlen(s) + 1, s);
+	char* context;//
+	char* temp = s_copy;//temp-временный указатель
+	int sum = 0;
+	while (char* part = strtok_s(temp, " ", & context)) {
+		int a;
+		sscanf_s(part, "%d", &a);//a=atoi(part);
+		sum += a;
+		temp = nullptr;
+	}
+	delete[] s_copy;
+	return sum;
+}
+
+int main() {
+	setlocale(LC_ALL, "Rus");
+	//strtok_s-функция для разделения строк
+	const char* s = "1 25 3 ";
+	int sum = get_sum(s);
+	cout << sum << endl;
+}
